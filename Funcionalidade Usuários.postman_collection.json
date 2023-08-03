@@ -1,0 +1,545 @@
+{
+	"info": {
+		"_postman_id": "28a81c65-d614-4bfd-ba2d-8ad454d0533e",
+		"name": "Funcionalidade Usuários",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19650840"
+	},
+	"item": [
+		{
+			"name": "Cadastrar novo usuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code é 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Mensagem de sucesso no cadastro\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Cadastro realizado\");",
+							"});",
+							"",
+							"pm.collectionVariables.set(\"id_editar\", pm.response.json()._id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nome\": \"Yago Ramos\",\n  \"email\": \"yramos@gmail.com.br\",\n  \"password\": \"123\",\n  \"administrador\": \"true\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local}}/usuarios/{{id_editar}}",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"usuarios",
+						"{{id_editar}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastrar novo usuario 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code é 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Mensagem de sucesso no cadastro\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Cadastro realizado\");",
+							"});",
+							"",
+							"pm.collectionVariables.set(\"id_excluir\", pm.response.json()._id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nome\": \"Junior Silva\",\n  \"email\": \"jrsilva@gmail.com.br\",\n  \"password\": \"567894\",\n  \"administrador\": \"true\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local}}/usuarios",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastrar novo usuario com email ja cadastrado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code é 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Não é possivel cadastrar e-mail que já foi usado\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Este email já está sendo usado\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nome\": \"Yasmin Ramos de Oliveira\",\n  \"email\": \"yramos@gmail.com.br\",\n  \"password\": \"123\",\n  \"administrador\": \"true\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local}}/usuarios",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar usuarios cadastrados",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code é 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Novo usuário cadastrado é listado com sucesso\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Yago Ramos\");",
+							"});",
+							"",
+							"pm.test(\"Tempo de resposta é menor que 20ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(20);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local}}/usuarios",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar usuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code é 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Busca usuário Fulano da Silva\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Yago Ramos\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local}}/usuarios/{{id_editar}}",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"usuarios",
+						"{{id_editar}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar usuario inexistente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code é 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Não é possivel cadastrar e-mail que já foi usado\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Usuário não encontrado\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local}}/usuarios/4789",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"usuarios",
+						"4789"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Excluir usuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code é 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Usuário Junior Silva é excluido\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Registro excluído com sucesso\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local}}/usuarios/{{id_excluir}}",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"usuarios",
+						"{{id_excluir}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Excluir usuario inexistente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code é 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Usuário inexistente não pode ser excluído\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Nenhum registro excluído\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local}}/usuarios/123456",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"usuarios",
+						"123456"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar usuário",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code é 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Editar usuario com sucesso\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Registro alterado com sucesso\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nome\": \"Yane Ramos Jardim\",\n  \"email\": \"yanerms@gmail.com.br\",\n  \"password\": \"teste\",\n  \"administrador\": \"true\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local}}/usuarios/{{id_editar}}",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"usuarios",
+						"{{id_editar}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar usuário inexistente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code é 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Cria novo usuario ao editar inexistente\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Cadastro realizado com sucesso\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nome\": \"Marcia Beltrão Ferreira\",\n  \"email\": \"mbferreira@gmail.com.br\",\n  \"password\": \"202123\",\n  \"administrador\": \"false\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local}}/usuarios/459735",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"usuarios",
+						"459735"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar usuário com email cadastrado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code é 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Não é possivel editar com email que já foi usado\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Este email já está sendo usado\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nome\": \"Marcelo Bezerra Ferreira\",\n  \"email\": \"mbferreira@gmail.com.br\",\n  \"password\": \"870128\",\n  \"administrador\": \"true\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{local}}/usuarios/459735",
+					"host": [
+						"{{local}}"
+					],
+					"path": [
+						"usuarios",
+						"459735"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id_editar",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "id_excluir",
+			"value": ""
+		}
+	]
+}
